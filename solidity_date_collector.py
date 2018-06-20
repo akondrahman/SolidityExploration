@@ -12,7 +12,7 @@ def getRepoFromFileName(file_param, org_par):
     start_path = os.path.relpath(file_param, org_par)
     repo_name  = start_path.split('/')[0]
     repo_path  = org_par  + repo_name + '/'
-    print 'File:{}, start path:{}, repo name:{}, repo path:{}'.format(file_param, start_path, repo_name, repo_path)
+    # print 'File:{}, start path:{}, repo name:{}, repo path:{}'.format(file_param, start_path, repo_name, repo_path)
     return repo_path
 
 def dumpContentIntoFile(strP, fileP):
@@ -64,3 +64,4 @@ if __name__=='__main__':
    dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/DATE.GITHUB.V4.csv'    
    org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'
    extractDateAllFiles(the_file, dt_out_fil, org)
+   print '='*100
