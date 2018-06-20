@@ -121,3 +121,16 @@ if __name__=='__main__':
     # mee_pro_df = mee_df_.merge(pro_df_, on=['FILE'])
     # print mee_pro_df.head()
     # mee_pro_df.to_csv(out_fil)
+
+    '''
+    Merge lint and process metric 
+    '''
+    lint_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_LINTER_FINAL.csv'
+    metr_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_METRICS_FINAL.csv'
+    outp_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL_LOCKED.csv'
+    
+    lint_df_ = pd.read_csv(lint_fil)
+    metr_df_ = pd.read_csv(metr_fil)
+    final_df = lint_df_.merge(metr_df_, on=['FILE'])
+    print final_df.head()
+    final_df.to_csv(outp_fil)
