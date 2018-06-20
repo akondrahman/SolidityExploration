@@ -90,5 +90,24 @@ if __name__=='__main__':
     # datasetFile2Save='/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3_DEV.PKL'
     # datasetFile2Save='/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_DEV.PKL'
 
-    final_dict = getGraphForFiles(theCompleteCategFile, org_nam)
-    pickle.dump(final_dict, open(datasetFile2Save, 'wb'))
+    # final_dict = getGraphForFiles(theCompleteCategFile, org_nam)
+    # pickle.dump(final_dict, open(datasetFile2Save, 'wb'))
+
+    '''
+    Merge Meenely Collab and Dev Network Metrics
+    '''
+    import pandas as pd
+
+    # dev_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/dev_network_output/OUT.GITHUB.V3.DEV.csv'
+    # col_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/col_network_output/OUT.GITHUB.V3.COLLA.csv'
+    # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3_MEENELY.csv'
+
+    # dev_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/dev_network_output/OUT.GITHUB.V4.DEV.csv'
+    # col_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/col_network_output/OUT.GITHUB.V4.COLLA.csv'
+    # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_MEENELY.csv'
+
+    dev_df_ = pd.read_csv(dev_fil)
+    col_df_ = pd.read_csv(col_fil)
+    dev_col_df = dev_df_.merge(col_df_, on=['FILE'])
+    print dev_col_df.head()
+    dev_col_df.to_csv(out_fil)
