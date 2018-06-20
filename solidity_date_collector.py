@@ -33,6 +33,7 @@ def extractDateAllFiles(in_, out_, org_):
           print file_name_, start, end 
           str_dump = str_dump + file_name_ + ',' + start + ',' + end + ',' + '\n'
           print '-'*50
+    str_dump = 'FILE,START_MONTH,END_MONTH,' + '\n' + str_dump 
     out_byt=dumpContentIntoFile(str_dump, out_)
     print 'We dumped a file of {} bytes'.format(out_byt)
 
@@ -63,5 +64,10 @@ if __name__=='__main__':
    the_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V4_MEENELY.csv'
    dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/DATE.GITHUB.V4.csv'    
    org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'
+
+#    the_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V3_MEENELY.csv'
+#    dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/DATE.GITHUB.V3.csv'    
+#    org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V3/'
+
    extractDateAllFiles(the_file, dt_out_fil, org)
    print '='*100
