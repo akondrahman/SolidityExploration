@@ -8,8 +8,8 @@ import pandas as pd
 import numpy as np
 import cliffsDelta
 
-v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_NO_MT.csv"
-v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_NO_MT.csv"
+v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4.csv"
+v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4.csv"
 
 
 def giveTimeStamp():
