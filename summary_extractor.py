@@ -8,8 +8,11 @@ import pandas as pd
 import numpy as np
 import cliffsDelta
 
-v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4.csv"
-v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4.csv"
+# v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
+# v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
+# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL.csv"
+
+all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv"
 
 
 def giveTimeStamp():
@@ -18,7 +21,7 @@ def giveTimeStamp():
   strToret = datetime.datetime.fromtimestamp(tsObj).strftime('%Y-%m-%d %H:%M:%S')
   return strToret
 
-dataset_files = [v3_file, v4_file]
+dataset_files = [all_file]
 
 print "Started at:", giveTimeStamp()
 for dataset_file in dataset_files:
@@ -26,7 +29,7 @@ for dataset_file in dataset_files:
     print "Dataset:", name
     df2read = pd.read_csv(dataset_file)
     features = df2read.columns
-    dropcols = ['file_', 'defect_status', 'org']
+    dropcols = ['file_', 'defect_status', 'org', 'FILE']
     features2see = [x_ for x_ in features if x_ not in dropcols]
     for feature_ in features2see:
            '''
@@ -45,9 +48,13 @@ for dataset_file in dataset_files:
            print '='*25
            print "Defective values [MEDIAN]:{}, [MEAN]:{}".format(np.median(list(defective_vals_for_feature)), np.mean(list(defective_vals_for_feature)))
            print "Non Defective values [MEDIAN]:{}, [MEAN]:{}".format(np.median(list(non_defective_vals_for_feature)), np.mean(list(non_defective_vals_for_feature)))
-           TS, p = stats.mannwhitneyu(list(defective_vals_for_feature), list(non_defective_vals_for_feature), alternative='greater')
+           try: 
+              TS, p = stats.mannwhitneyu(list(defective_vals_for_feature), list(non_defective_vals_for_feature), alternative='greater')
+           except ValueError: 
+              TS, p = 0.0, 1.0 
            cliffs_delta = cliffsDelta.cliffsDelta(list(defective_vals_for_feature), list(non_defective_vals_for_feature))
+           print '*'*25
            print 'Feature:{}, pee value:{}, cliffs:{}'.format(feature_, p, cliffs_delta)
+           print '*'*25
            print '='*50
-    print '*'*100
 print "Ended at:", giveTimeStamp()

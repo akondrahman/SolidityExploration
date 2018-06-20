@@ -102,12 +102,22 @@ if __name__=='__main__':
     # col_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/col_network_output/OUT.GITHUB.V3.COLLA.csv'
     # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3_MEENELY.csv'
 
-    # dev_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/dev_network_output/OUT.GITHUB.V4.DEV.csv'
-    # col_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/col_network_output/OUT.GITHUB.V4.COLLA.csv'
-    # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_MEENELY.csv'
+    # # dev_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/dev_network_output/OUT.GITHUB.V4.DEV.csv'
+    # # col_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/col_network_output/OUT.GITHUB.V4.COLLA.csv'
+    # # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V4_MEENELY.csv'
+    #
+    # dev_df_ = pd.read_csv(dev_fil)
+    # col_df_ = pd.read_csv(col_fil)
+    # dev_col_df = dev_df_.merge(col_df_, on=['FILE'])
+    # print dev_col_df.head()
+    # dev_col_df.to_csv(out_fil)
 
-    dev_df_ = pd.read_csv(dev_fil)
-    col_df_ = pd.read_csv(col_fil)
-    dev_col_df = dev_df_.merge(col_df_, on=['FILE'])
-    print dev_col_df.head()
-    dev_col_df.to_csv(out_fil)
+    # mee_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_MEENELY.csv'
+    # pro_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_PROCESS.csv'
+    # out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv'
+    #
+    # mee_df_ = pd.read_csv(mee_fil)
+    # pro_df_ = pd.read_csv(pro_fil)
+    # mee_pro_df = mee_df_.merge(pro_df_, on=['FILE'])
+    # print mee_pro_df.head()
+    # mee_pro_df.to_csv(out_fil)
