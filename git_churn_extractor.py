@@ -1,8 +1,9 @@
 '''
-Feb 18, 2017
+June 21, 2018
 Churn of files belonging to git repos
 '''
 import os, subprocess, numpy as np
+
 def getRelativeChurnMetrics(param_file_path, repo_path):
   churn_str_for_file= ""
 
@@ -10,7 +11,9 @@ def getRelativeChurnMetrics(param_file_path, repo_path):
   churn_delet_lines = getDeletedChurnMetrics(param_file_path, repo_path)
   churn_total_lines = churn_added_lines + churn_delet_lines
   #print "Churn:add={}, churn:del={}, churn:total={}".format(churn_added_lines, churn_delet_lines, churn_total_lines)
+  
   lines_for_file      = sum(1 for line in open(param_file_path))
+
   churn_total_days    = getDaysOfChurn(param_file_path, repo_path)
   churn_count_of_file = getCountOfChurn(param_file_path, repo_path)
 

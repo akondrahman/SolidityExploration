@@ -1,91 +1,63 @@
 '''
-Akond , Feb 17, 2017
-Placeholder for all metric extraction: static, process, chrun
+Akond Rahman 
+June 21, 2018 
+Placeholder for all metric extraction: chrun
 '''
-from SmellDetector import SmellDectector
-import lint_metric_extractor, git_churn_extractor, hg_churn_extractor, static_metric_utility, bug_git_util
-MOZFLAG='moz'
-WIKIFLAG='wikimedia'
 
-def getAllStaticMetricForSingleFile(full_path_param, repo_path_param):
-  org_of_file                     = ''
+import git_churn_extractor 
+import os 
+import subprocess
+import csv 
+
+def getRepoFromFileName(file_param, org_par):
+    start_path = os.path.relpath(file_param, org_par)
+    repo_name  = start_path.split('/')[0]
+    repo_path  = org_par  + repo_name + '/'
+    # print 'File:{}, start path:{}, repo name:{}, repo path:{}'.format(file_param, start_path, repo_name, repo_path)
+    return repo_path
+
+def dumpContentIntoFile(strP, fileP):
+    fileToWrite = open( fileP, 'w')
+    fileToWrite.write(strP )
+    fileToWrite.close()
+    return str(os.stat(fileP).st_size) 
+
+
+def getChurnForSingleFile(full_path_param, repo_path_param):
   print full_path_param
   print "-"*50
-  puppet_specific_metric_for_file =  SmellDectector.getQualGenratedMetricForFile(full_path_param)
-  print puppet_specific_metric_for_file
-  print "Generated the Puppet specific metrics, 14 will be used ... "
-  print "-"*50
-  #lint_specific_metric_for_file   =  lint_metric_extractor.getLintMetrics(full_path_param)
-  #print lint_specific_metric_for_file
-  print "Did not generated the Puppet lint metrics, as they will not be used ... "
-  print "-"*50
-  if(MOZFLAG in full_path_param):
-   relative_churn_metrics         =  hg_churn_extractor.getRelativeChurnMetrics(full_path_param, repo_path_param)
-   org_of_file                    =  'MOZILLA'
-  elif(WIKIFLAG in full_path_param):
-   relative_churn_metrics         =  git_churn_extractor.getRelativeChurnMetrics(full_path_param, repo_path_param)
-   org_of_file                    =  'WIKIMEDIA'
-  else:
-   relative_churn_metrics         =  git_churn_extractor.getRelativeChurnMetrics(full_path_param, repo_path_param)
-   org_of_file                    =  'OPENSTACK'
-  #print relative_churn_metrics
-  print "Generated the relative churn metrics, 4 will be used ... "
-  print "-"*50
-  #all_metric_as_str_for_file      = puppet_specific_metric_for_file + lint_specific_metric_for_file + relative_churn_metrics
-  all_metric_as_str_for_file      = puppet_specific_metric_for_file  + relative_churn_metrics
-  all_metric_as_str_for_file      = org_of_file + ',' + full_path_param + ',' + all_metric_as_str_for_file
+  ### SLOC 
+  sloc_for_file      = sum(1 for line in open(full_path_param))
+  
+  all_metric_as_str_for_file = str(sloc_for_file) + ',' + git_churn_extractor.getRelativeChurnMetrics(full_path_param, repo_path_param)
   return all_metric_as_str_for_file
 
-
-
-
-def getAllStaticMatricForAllFiles(pupp_map_dict_param):
-   # datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/dataset/MOZ_WIKI_FULL_DATASET.csv'
-   # datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/dataset/WITHOUT_BAD_BOYS_OPENSTACK_FULL_DATASET.csv'
-   # datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/dataset/MIRANTIS_FULL_DATASET.csv'
-   # datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/dataset/CISCO_FULL_DATASET.csv'
-   # datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/dataset/BASTION_FULL_DATASET.csv'
+def getChurnForAllFile(in_fi, or_di):
    str2ret=''
    fileCount = 0
-   for file_, details_ in pupp_map_dict_param.items():
-     fileCount = fileCount + 1
-     repo_                    = details_[1]
-     defect_status            = details_[0]
-     print "Analyzing ... \nfile#{}\ndefect status:{}\nrepo:{}".format(fileCount, defect_status, repo_)
-     print "The file:"
-     all_metric_for_this_file = getAllStaticMetricForSingleFile(file_, repo_)
-     str2ret = str2ret + all_metric_for_this_file + defect_status + '\n'
-     print "="*100
-   static_metric_utility.createDataset(str2ret, datasetFile2Save)
+   with open(in_fi, 'rU') as file_:
+      reader_ = csv.reader(file_)
+      next(reader_, None)
+      for row_ in reader_:
+          file_name_ = row_[0]
+          if os.path.exists(file_name_):
+             repo_ = getRepoFromFileName(file_name_, or_di)   
+             fileCount = fileCount + 1
+             print "The file:", file_name_
+             all_metric_for_this_file = getChurnForSingleFile(file_name_, repo_)
+             print all_metric_for_this_file
+             str2ret = str2ret + file_name_ + ',' + all_metric_for_this_file + '\n'
+             print "="*10
+   
    return str2ret
 
-print "Started at:", bug_git_util.giveTimeStamp()
-print "-"*100
-'''
-FOR TEST STUFF
-'''
 
-test_hg_file  = '/Users/akond/PUPP_REPOS/mozilla-releng-downloads/relabs-puppet/manifests/site.pp'
-#test_git_file = '/Users/akond/PUPP_REPOS/wikimedia-downloads/mariadb/manifests/heartbeat.pp'
-test_git_file = '/Users/akond/PUPP_REPOS/openstack-downloads/puppet-nova/manifests/params.pp'
-# git_repo_path = '/Users/akond/PUPP_REPOS/wikimedia-downloads/mariadb'
-git_repo_path = '/Users/akond/PUPP_REPOS/openstack-downloads/puppet-nova'
-hg_repo_path  = '/Users/akond/PUPP_REPOS/mozilla-releng-downloads/relabs-puppet/'
-'''
-FOR REAL STUFF
-'''
-fullPuppMap   = static_metric_utility.getPuppetFileDetails()
-print "Loaded the mapping of files ... "
-print "-"*100
-'''
-testing purpose
-'''
-###### getAllStaticMetricForSingleFile(test_hg_file, hg_repo_path)
-# getAllStaticMetricForSingleFile(test_git_file, git_repo_path)
-'''
-for dataset generation
-'''
-getAllStaticMatricForAllFiles(fullPuppMap)
-print "We analyzed {} Puppet files".format(len(fullPuppMap))
-print "-"*100
-print "Ended at:", bug_git_util.giveTimeStamp()
+if __name__=='__main__':
+   print "-"*100
+
+   input_ = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V4_MEENELY.csv'
+   output_ = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GAS.GITHUB.V4.csv'    
+   org_dir = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'   
+
+   data_dump  = getChurnForAllFile(input_, org_dir)
+   dumpContentIntoFile(data_dump, output_)
