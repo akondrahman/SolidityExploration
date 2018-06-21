@@ -28,10 +28,10 @@ def processGasOutput():
     cost_lines  = [x_ for x_ in file_lines if '\n' not in x_]
     cost_lines  = [x_ for x_ in cost_lines if ':' in x_]
     text_list = [x_.split(':')[1].strip() for x_ in cost_lines]
-    cost_list = [x_ for x_ in text_list if x_.isdigit()]
+    cost_list = [int(x_) for x_ in text_list if x_.isdigit()]
     if len(cost_list) <= 0:
-       cost_list = ['0']    
-    return cost_list
+       cost_list = [0]    
+    return sum(cost_list)   ### return the total cost 
         
 
 def getGasForSingleFile(full_file_path):
@@ -56,17 +56,21 @@ def getGasForAllFiles(in_, org_, out_):
              repo_ = getRepoFromFileName(file_name_, org_)
              tot_gas_est = getGasForSingleFile(file_name_)
              print tot_gas_est
-    #          str_dump = str_dump + file_name_ + ',' + tot_gas_est + ',' + repo_ + ',' + '\n'
+             str_dump = str_dump + file_name_ + ',' + str(tot_gas_est) + ',' + repo_ + ',' + '\n'
              print '#'*50
-    # str_dump = 'FILE,GAS_ESTIMATE,REPO,' + '\n' + str_dump 
-    # out_byt=dumpContentIntoFile(str_dump, out_)
-    # print 'We dumped a file of {} bytes'.format(out_byt)    
+    str_dump = 'FILE,GAS_ESTIMATE,REPO,' + '\n' + str_dump 
+    out_byt=dumpContentIntoFile(str_dump, out_)
+    print 'We dumped a file of {} bytes'.format(out_byt)    
 
 
 
 if __name__=='__main__':
-   the_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V4_MEENELY.csv'
-   dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/DATE.GITHUB.V4.csv'    
-   org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'   
+#    the_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V4_MEENELY.csv'
+#    dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GAS.GITHUB.V4.csv'    
+#    org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'   
+
+#    the_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/prior/GITHUB_V3_MEENELY.csv'
+#    dt_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GAS.GITHUB.V3.csv'    
+#    org = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V3/'   
 
    getGasForAllFiles(the_file, org, dt_out_fil)
