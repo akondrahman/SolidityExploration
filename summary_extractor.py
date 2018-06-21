@@ -12,7 +12,8 @@ import cliffsDelta
 # v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
 # all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL.csv"
 
-all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv"
+# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv"
+all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv"
 
 
 def giveTimeStamp():
