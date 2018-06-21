@@ -21,7 +21,7 @@ def dumpContentIntoFile(strP, fileP):
     return str(os.stat(fileP).st_size)
 
 def processGasOutput():
-    file_lines = ['0']
+    file_lines = []
     with open('GAS_SOL_TMP.LOG', 'rU') as log_fil:
          file_str = log_fil.read()
          file_lines = file_str.split('\n')
@@ -29,6 +29,8 @@ def processGasOutput():
     cost_lines  = [x_ for x_ in cost_lines if ':' in x_]
     text_list = [x_.split(':')[1].strip() for x_ in cost_lines]
     cost_list = [x_ for x_ in text_list if x_.isdigit()]
+    if len(cost_list) <= 0:
+       cost_list = ['0']    
     return cost_list
         
 
