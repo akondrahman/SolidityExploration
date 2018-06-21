@@ -18,19 +18,19 @@ def getRelativeChurnMetrics(param_file_path, repo_path):
   churn_count_of_file = getCountOfChurn(param_file_path, repo_path)
 
   if(lines_for_file > 0):
-    rel_churn_1 = float(churn_total_lines) / float(lines_for_file)
+    rel_churn_1 = float(churn_total_lines) / float(lines_for_file)   ###Normalized total churn 
   else:
       rel_churn_1 = float(0)
   rel_churn_1 = round(rel_churn_1, 5)
 
   if(lines_for_file > 0 ):
-    rel_churn_2 = float(churn_delet_lines) / float(lines_for_file)
+    rel_churn_2 = float(churn_delet_lines) / float(lines_for_file)  ### Normalized deleted churn 
   else:
       rel_churn_2 = float(0)
   rel_churn_2 = round(rel_churn_2, 5)
 
-  if (churn_delet_lines > 0):
-    rel_churn_3 = float(churn_total_lines) / float(churn_delet_lines)
+  if (churn_total_lines > 0):
+    rel_churn_3 = float(churn_delet_lines) / float(churn_total_lines) ## percent of churned stuff that are deletes 
     rel_churn_3 = round(rel_churn_3, 5)
   else:
     rel_churn_3 = float(0)
@@ -41,8 +41,13 @@ def getRelativeChurnMetrics(param_file_path, repo_path):
       rel_churn_4 = float(0)
   rel_churn_4 = round(rel_churn_4, 5)
 
-  #churn_str_for_file = str(churn_total_lines) + "," + str(rel_churn_1) + "," + str(rel_churn_2) + "," + str(rel_churn_3) + "," + str(rel_churn_4) + "," + str(churn_count_of_file) + ","
-  churn_str_for_file = str(churn_total_lines) + "," + str(rel_churn_1) + "," + str(rel_churn_2)  + "," + str(churn_count_of_file) + ","
+  if (churn_total_lines > 0):
+        rel_churn_5 = float(churn_added_lines) / float(churn_total_lines) ## percent of churned stuff that are additions  
+        rel_churn_5 = round(rel_churn_5, 5)
+  else:
+        rel_churn_5 = float(0)  
+
+  churn_str_for_file = str(churn_total_lines) + "," + str(rel_churn_1) + "," + str(rel_churn_2) + "," + str(rel_churn_3) + "," + str(rel_churn_4) + "," + str(rel_churn_5) + "," + str(churn_count_of_file) + ","
   return churn_str_for_file
 
 
