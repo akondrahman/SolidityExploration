@@ -20,7 +20,24 @@ def dumpContentIntoFile(strP, fileP):
     fileToWrite.close()
     return str(os.stat(fileP).st_size)
 
+def processGasOutput():
+    file_lines = []
+    with open('GAS_SOL_TMP.LOG', 'rU') as log_fil:
+         file_str = log_fil.read()
+         file_lines = file_str.split('\n')
+    cost_lines  = [x_ for x_ in file_lines if '\n' not in x_]
+    cost_lines  = [x_ for x_ in cost_lines if ':' in x_]
+    cost_list = [x_.split(':')[1].strip() for x_ in cost_lines]
+    return cost_list
+        
+
 def getGasForSingleFile(full_file_path):
+    tot_gas_cost = 0 
+    cmd_of_interrest = "solc --gas " + full_file_path + " > GAS_SOL_TMP.LOG "
+    subprocess.check_output(['bash','-c', cmd_of_interrest])
+    tot_gas_cost=processGasOutput()
+    return tot_gas_cost
+    
 
 def getGasForAllFiles(in_, org_, out_):
     str_dump = ''
@@ -32,11 +49,12 @@ def getGasForAllFiles(in_, org_, out_):
           if os.path.exists(file_name_):
              repo_ = getRepoFromFileName(file_name_, org_)
              tot_gas_est = getGasForSingleFile(file_name_)
-             str_dump = str_dump + file_name_ + ',' + tot_gas_est + ',' + repo_ + ',' + '\n'
-             print '-'*50
-    str_dump = 'FILE,GAS_ESTIMATE,REPO,' + '\n' + str_dump 
-    out_byt=dumpContentIntoFile(str_dump, out_)
-    print 'We dumped a file of {} bytes'.format(out_byt)    
+             print tot_gas_est
+    #          str_dump = str_dump + file_name_ + ',' + tot_gas_est + ',' + repo_ + ',' + '\n'
+    #          print '-'*50
+    # str_dump = 'FILE,GAS_ESTIMATE,REPO,' + '\n' + str_dump 
+    # out_byt=dumpContentIntoFile(str_dump, out_)
+    # print 'We dumped a file of {} bytes'.format(out_byt)    
 
 
 
