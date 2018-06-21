@@ -135,15 +135,26 @@ if __name__=='__main__':
     # print final_df.head()
     # final_df.to_csv(outp_fil)
 
-    '''
-    Merge lint with process and churn metric 
-    '''
-    lint_proc_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_PRO_FINAL_LOCKED.csv'
-    churn_fil     = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/CHURN.GITHUB.ALL.csv'
-    output_fil    = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL_LOCKED.csv'
+    # '''
+    # Merge lint with process and churn metric 
+    # '''
+    # lint_proc_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_PRO_FINAL_LOCKED.csv'
+    # churn_fil     = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/CHURN.GITHUB.ALL.csv'
+    # output_fil    = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL_LOCKED.csv'
     
-    lp_df_ = pd.read_csv(lint_proc_fil)
-    ch_df_ = pd.read_csv(churn_fil)
-    final_df = lp_df_.merge(ch_df_, on=['FILE'])
-    print final_df.head()
-    final_df.to_csv(output_fil)    
+    # lp_df_ = pd.read_csv(lint_proc_fil)
+    # ch_df_ = pd.read_csv(churn_fil)
+    # final_df = lp_df_.merge(ch_df_, on=['FILE'])
+    # print final_df.head()
+    # final_df.to_csv(output_fil)   
+
+    '''
+    security smells status indicator 
+    '''
+    input_fil     = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL_LOCKED.csv'
+    output_fil    = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv'
+    
+    ch_df_ = pd.read_csv(input_fil)
+    ch_df_['defect_status'] = np.where(ch_df_['TOTAL'] >= 1, 1, 0)
+    print ch_df_.head()
+    ch_df_.to_csv(output_fil)    
