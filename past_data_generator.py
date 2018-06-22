@@ -37,10 +37,10 @@ def genValidMonths(s_mon, e_mon, y_l, m_l):
 def resetTheDir(src, des, val_mon):
     repo_name = src.split('/')[-2]
 
-    year_ = val_mon.split('-')[0] 
-    mont_ = val_mon.split('-')[-1]
+    year_ = val_mon[0] 
+    mont_ = val_mon[-1]
  
-    folder2create = des + repo_name + '-' + year_ + '-' + mont_ + '/'
+    folder2create = des + repo_name + '-' + str(year_) + '-' + str(mont_) + '/'
  
     print '='*50
     print folder2create
