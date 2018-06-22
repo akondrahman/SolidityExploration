@@ -23,9 +23,10 @@ def genValidMonths(s_mon, e_mon, y_l, m_l):
     all_mon = list(itertools.product(y_l, m_l)) 
     for mont_ in all_mon:
         cand_mont = datetime(mont_[0], mont_[1], 1)
+        print mont_, cand_mont, start_, end_
+        print '*'*50
         if ( (cand_mont >= sta_) and (cand_mont <= end_) ):
-           print mont_, cand_mont, start_, end_
-           print '*'*50
+           print 'asi mama'
 
 
 
