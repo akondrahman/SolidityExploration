@@ -11,6 +11,12 @@ import itertools
 from datetime import datetime
 import subprocess
 
+def dumpContentIntoFile(strP, fileP):
+    fileToWrite = open( fileP, 'w')
+    fileToWrite.write(strP )
+    fileToWrite.close()
+    return str(os.stat(fileP).st_size)
+
 def genValidMonths(s_mon, e_mon, y_l, m_l):
     valid_months = []
 
@@ -43,17 +49,16 @@ def resetTheDir(src, des, val_mon):
     folder2create = des + repo_name + '-' + str(year_) + '-' + str(mont_) + '/'
  
     print '='*50
-    print folder2create
-    print '-'*25
+    str_write = src + ',' + folder2create + ',' + str(year_) + '-' + str(mont_)      
     if((os.path.exists(folder2create))==False):
-        print src, folder2create, year_, mont_
+        # print src, folder2create, year_, mont_
         try:
           shutil.copytree(src, folder2create)
           '''
           now  do a reset
           '''
           cdCommand            = "cd " + folder2create + " ; "
-          date2reset           = year_ + '-' + mont_ + '-' + '28'  ## 28 th of the month
+          date2reset           = str(year_) + '-' + str(mont_) + '-' + '28'  ## 28 th of the month
           commitCommand        = "git checkout -f `git rev-list -n 1 --before='"+ date2reset +"' master`"
           command2Run          = cdCommand + commitCommand
           try:
@@ -63,9 +68,12 @@ def resetTheDir(src, des, val_mon):
         except shutil.Error as err_:
             print 'Directory not copied, error:', err_
     print '='*50
+    print str_write
+    return str_write
 
 
-def generatePastData(file_inp, y_l, m_l):
+def generatePastData(file_inp, y_l, m_l, map_file):
+    str_ = ''
     df_ = pd.read_csv(file_inp) 
     repo_names  = np.unique(df_['REPO'].tolist())    
     for repo_ in repo_names:
@@ -81,10 +89,14 @@ def generatePastData(file_inp, y_l, m_l):
         for val_mon in val_mon_lis:
             srcDir = repo_
             desDir = '/Users/akond.rahman/Documents/Personal/misc/sol_time_data/'
-            resetTheDir(srcDir, desDir, val_mon)
+            map_str = resetTheDir(srcDir, desDir, val_mon)
+            str_ = str_ + map_str + '\n'
+    str_ = 'ORIG_REPO,TIME_REPO,TIME' + '\n' + str_
+    dumpContentIntoFile(str_, map_file)
            
 
 if __name__=='__main__':
    dt_fi = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/DATE.GITHUB.ALL.LOCKED.csv'
+   map_out_fil = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/TIME.MAP.csv'
    year_list, mont_list = [2015, 2016, 2017, 2018], [x_+1 for x_ in xrange(12)]
-   generatePastData(dt_fi, year_list, mont_list)   
+   generatePastData(dt_fi, year_list, mont_list, map_out_fil)   
