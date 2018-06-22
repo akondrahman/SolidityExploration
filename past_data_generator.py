@@ -37,8 +37,8 @@ def genValidMonths(s_mon, e_mon, y_l, m_l):
 def resetTheDir(src, des, val_mon):
     repo_name = src.split('/')[-2]
 
-    year_ = val_mon[0] 
-    mont_ = val_mon[-1]
+    year_ = val_mon.year
+    mont_ = val_mon.month
  
     folder2create = des + repo_name + '-' + str(year_) + '-' + str(mont_) + '/'
  
@@ -47,22 +47,23 @@ def resetTheDir(src, des, val_mon):
     print '-'*25
     if((os.path.exists(folder2create))==False):
         print src, folder2create, year_, mont_
-        
-        # try:
-        #   shutil.copytree(src, folder2create)
-        #   '''
-        #   now  do a reset
-        #   '''
-        #   cdCommand            = "cd " + folder2create + " ; "
-        #   date2reset           = year_ + '-' + mont_ + '-' + '28'  ## 28 th of the month
-        #   commitCommand        = "git checkout -f `git rev-list -n 1 --before='"+ date2reset +"' master`"
-        #   command2Run          = cdCommand + commitCommand
-        #   try:
-        #     subprocess.check_output(['bash','-c', command2Run])
-        #   except subprocess.CalledProcessError as subpro_err:
-        #     print 'Subprocess error:', subpro_err
-        # except shutil.Error as err_:
-        #     print 'Directory not copied, error:', err_
+        try:
+          shutil.copytree(src, folder2create)
+          '''
+          now  do a reset
+          '''
+          cdCommand            = "cd " + folder2create + " ; "
+          date2reset           = year_ + '-' + mont_ + '-' + '28'  ## 28 th of the month
+          commitCommand        = "git checkout -f `git rev-list -n 1 --before='"+ date2reset +"' master`"
+          command2Run          = cdCommand + commitCommand
+          try:
+            subprocess.check_output(['bash','-c', command2Run])
+          except subprocess.CalledProcessError as subpro_err:
+            print 'Subprocess error:', subpro_err
+        except shutil.Error as err_:
+            print 'Directory not copied, error:', err_
+    print '='*50
+
 
 def generatePastData(file_inp, y_l, m_l):
     df_ = pd.read_csv(file_inp) 
