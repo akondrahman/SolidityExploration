@@ -48,14 +48,13 @@ if __name__=='__main__':
     eth_link_file = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/100_filtered_contracts_list.txt'
     # url_ = 'https://etherscan.io/address/0x34f0d846c766874413938994da32360cf0e4350d#code'    
 
-
     links = getLinks(eth_link_file)
-    links = links[10:20]
     # print links
     count = 0 
     str_map = ''
     for web_lin in links:
        sol_src, tra_cnt =getContentOfWebPage(web_lin)
+       sol_src = sol_src.encode('ascii', 'ignore').decode('ascii')
        count += 1 
        file2save = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/verified_contracts/' + str(count) + '.sol'
        saved_bytes = dumpContentIntoFile(sol_src, file2save)
