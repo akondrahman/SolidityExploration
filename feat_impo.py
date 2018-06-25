@@ -48,6 +48,7 @@ def calcFeatureImp(feature_vec, label_vec, feature_names_param, output_file, rep
             print 'Metric:{}, score:{}'.format(feature_names_param[imp_vec_index], feat_imp_val)
             print '-'*25
         str2write = str2write + '\n'
+        print '='*50
     str2write = header_str + '\n' + str2write
     output_status= dumpContentIntoFile(str2write, output_file)
     print 'Dumped the RF FEATURE IMPORTANCE file of {} bytes'.format(output_status)
