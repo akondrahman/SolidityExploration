@@ -54,7 +54,7 @@ def calcFeatureImp(feature_vec, label_vec, feature_names_param, output_file, rep
 
 
 if __name__=='__main__':
-   ds_file_name       = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv'
+   ds_file_name       = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_FOR_FEAT_IMPO.csv'
    output_file_param  = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/OUT.FEA.IMP.csv'
 
    full_ds=readDataset(ds_file_name)
