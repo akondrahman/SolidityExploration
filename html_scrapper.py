@@ -19,7 +19,10 @@ def getLinks(link_file):
 def getContentOfWebPage(link_str):
     page = requests.get(link_str)
     tree = html.fromstring(page.content)  
-    source = tree.xpath('//pre[@class="js-sourcecopyarea"]/text()')[0] ## output is stored in a list 
+    try:
+       source = tree.xpath('//pre[@class="js-sourcecopyarea"]/text()')[0] ## output is stored in a list 
+    except IndexError as e:
+       print 'Got an index error ... not sure why ....:', e 
     ### one contract can have multiple SOL files as source 
     # print source
     txCountStr  = tree.xpath('//span[@title="Normal Transactions"]/text()')[0] ## output is stored in a list 
