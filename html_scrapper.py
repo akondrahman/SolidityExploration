@@ -50,6 +50,7 @@ if __name__=='__main__':
 
 
     links = getLinks(eth_link_file)
+    links = links[10:20]
     # print links
     count = 0 
     str_map = ''
