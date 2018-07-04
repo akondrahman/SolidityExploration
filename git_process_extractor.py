@@ -55,9 +55,12 @@ def getAge(param_file_path, repo_path):
    monthAndYeatList = [dob[-4:] + '-' + monthDict[dob[0:3]] for dob in dt_churn_output]
    monthAndYeatList.sort()
    #print monthAndYeatList
-   earliesttMonth  = monthAndYeatList[0]
-   latesttMonth    = monthAndYeatList[-1]
-   age = str(calculateMonthDiffFromTwoDates(earliesttMonth, latesttMonth))
+   if len(monthAndYeatList) > 1:
+    earliesttMonth  = monthAndYeatList[0]
+    latesttMonth    = monthAndYeatList[-1]
+    age = str(calculateMonthDiffFromTwoDates(earliesttMonth, latesttMonth))
+   else:
+    age = '0'
    #print age
    return age
 

@@ -155,11 +155,8 @@ def getMercurialProgrammerList(file_with_rel_path, repo_path):
 
 def getRepoList(org_name_p):
     repoList2Ret = []
-    the_eligible_file = org_name_p + 'eligible_repos.csv'
-    with open(the_eligible_file, 'rU') as file_:
-         reader_ = csv.reader(file_)
-         for row_ in reader_:
-             repoList2Ret.append( org_name_p + row_[0] + '/')
+    repoList2Ret = os.listdir(org_name_p)
+    
     return repoList2Ret
 
 def getMercurialProgToFileMapping(org_name_p):
