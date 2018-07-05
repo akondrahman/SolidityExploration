@@ -57,17 +57,25 @@ def getSolFiles(the_dir, out_f):
 
                     total1      = avoid_throw + reentrancy + avoid_sha +  avoid_sui + func_visi +  state_vis + check_send + avoid_call + comp_fix
                     total2      = comp_gt + comp_fall + call_contr + mult_send + simp_even + tx_orig + inli_asse + block_hash + low_level
-                    total       = total1 + total2
+                    # total       = total1 + total2
                     # print avoid_throw, reentrancy, avoid_sha, avoid_sui, func_visi, state_vis, check_send, avoid_call, comp_fix
                     # print comp_gt, comp_fall, call_contr, mult_send, simp_even, tx_orig, inli_asse, block_hash, low_level
                     # print total
-                    str1_ = full_file_path + ',' + str(avoid_throw) + ',' + str(reentrancy) + ',' + str(avoid_sha) + ',' + str(avoid_sui) + ',' + str(func_visi) + ',' + str(state_vis) + ',' + str(check_send) + ',' + str(avoid_call) + ',' + str(comp_fix) + ','
-                    str2_ = str(comp_gt) + ',' + str(comp_fall) + ',' + str(call_contr) + ',' + str(mult_send) + ',' + str(simp_even) + ',' + str(tx_orig) + ',' + str(inli_asse) + ',' + str(block_hash) + ',' + str(low_level) + ',' + str(total)
-                    str_ =  str_ + str1_ + str2_ + '\n'
+                    # str1_ = full_file_path + ',' + str(avoid_throw) + ',' + str(reentrancy) + ',' + str(avoid_sha) + ',' + str(avoid_sui) + ',' + str(func_visi) + ',' + str(state_vis) + ',' + str(check_send) + ',' + str(avoid_call) + ',' + str(comp_fix) + ','
+                    # str2_ = str(comp_gt) + ',' + str(comp_fall) + ',' + str(call_contr) + ',' + str(mult_send) + ',' + str(simp_even) + ',' + str(tx_orig) + ',' + str(inli_asse) + ',' + str(block_hash) + ',' + str(low_level) + ',' + str(total)
+                    # str_ =  str_ + str1_ + str2_ + '\n'
+                    total = reentrancy + check_send + tx_orig 
+                    '''
+                    not all smells  are threats so not considerign all
+                    '''
+                    str1_ = full_file_path + ',' + str(reentrancy) + ',' + str(check_send) + ','
+                    str2_ = str(tx_orig) + ',' + str(total)
+                    str_ =  str_ + str1_ + str2_ + '\n'                    
                     # print str_
                     print '='*50
 
-    str_ = 'FILE,AVOID_THROW,REENTRANCY,AVOID_SHA,AVOID_SUI,FUNC_VISI,STATE_VIS,CHECK_SEND,AVOID_CALL,COMP_FIX,COMP_GT,COMP_FALL,CALL_CONTR,MULT_SEND,SIMP_EVEN,TX_ORIG,INLIASS,BLOCK_HASH,LOW_LEVEL,TOTAL' + '\n' + str_
+    # str_ = 'FILE,AVOID_THROW,REENTRANCY,AVOID_SHA,AVOID_SUI,FUNC_VISI,STATE_VIS,CHECK_SEND,AVOID_CALL,COMP_FIX,COMP_GT,COMP_FALL,CALL_CONTR,MULT_SEND,SIMP_EVEN,TX_ORIG,INLIASS,BLOCK_HASH,LOW_LEVEL,TOTAL' + '\n' + str_
+    str_ = 'FILE,REENTRANCY,CHECK_SEND,TX_ORIG,TOTAL' + '\n' + str_    
     out_sta = dumpContentIntoFile(str_, out_f)
     print 'Dumped a file of {} bytes'.format(out_sta)
 

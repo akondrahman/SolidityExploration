@@ -64,6 +64,7 @@ def createDataset(str2Dump, datasetNameParam):
 
    str2Write = headerStr + '\n' + str2Dump
    return dumpContentIntoFile(str2Write, datasetNameParam)
+
 def getDatasetFromCSV(fileParam, dataTypeFlag=True):
   if dataTypeFlag:
     data_set_to_return = np.genfromtxt(fileParam, delimiter=',', skip_header=1, dtype='float')
@@ -71,46 +72,7 @@ def getDatasetFromCSV(fileParam, dataTypeFlag=True):
         data_set_to_return = np.genfromtxt(fileParam, delimiter=',', skip_header=1,  dtype='str')
   return data_set_to_return
 
-'''
-for opnestack bad boys
-'''
-def getScatterFromBadBoyFile(fileName, sloc):
-   blame_output =[]
-   '''
-   output list
-   '''
-   lineNoProb        = []
-   lineNoCnt         = []
-   '''
-   '''
-   lineNoProb = []
-   with open(theCompleteCategFile, 'rU') as file_:
-      reader_ = csv.reader(file_)
-      for row_ in reader_:
-          blame_output.append(row_[0])
-   line_chng_dict    = dict(Counter(blame_output))
-   #print line_chng_dict
-   for lineNo in xrange(sloc):
-       line_key  = str(lineNo + 1)
-       if (line_key in line_chng_dict):
-          line_cnt  = line_chng_dict[line_key]
-       else:
-          line_cnt  = 0
-       line_prob = float(line_cnt)/float(sloc)
-       lineNoProb.append(line_prob) ### Version 1
-       lineNoCnt.append(line_cnt)   ### Version 2
-   #print "len:{}, list:{}, loc:{}".format(len(lineNoProb), lineNoProb, sloc)
-   scatterness_prob = round(entropy(lineNoProb), 5)  ##Version 1
-   scatterness_cnt  = round(entropy(lineNoCnt), 5)  ##Version 2
-   '''
-   handling -inf, inf
-   '''
-   if((scatterness_cnt == float("-inf")) or (scatterness_cnt == float("inf"))):
-     scatterness_cnt = float(0)
-   return scatterness_cnt
-'''
-list missing files
-'''
+
 def listMissingFiles(dataset_1, dataset_2):
     static_datset =[]
     process_dataset = []

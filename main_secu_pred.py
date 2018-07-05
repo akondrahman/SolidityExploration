@@ -11,7 +11,7 @@ import process_metric_utility , numpy as np , pandas as pd, sklearn_utility
 print "Started at:", process_metric_utility.giveTimeStamp()
 print "-"*50
 
-dataset_file= '/Users/akond/Documents/AkondOneDrive/OneDrive/IaC-Defect-Prediction-Project/JUST_SIZE/MIR.csv'
+dataset_file= '/Users/akond.rahman/Documents/Personal/misc/solidity_output/LOCKED_FINAL_GITHUB.csv'
 
 print "The dataset is:", dataset_file
 print "-"*50
@@ -40,7 +40,7 @@ feature_input_for_pca = log_transformed_features
 '''
 PCA ZONE
 '''
-pca_comp = 10 ###  must be less than or equal to no of features
+pca_comp = 7 ###  must be less than or equal to no of features
 pcaObj = decomposition.PCA(n_components=pca_comp)
 pcaObj.fit(feature_input_for_pca)
 # variance of features
@@ -51,13 +51,13 @@ print "Explained varaince ratio"
 for index_ in xrange(len(variance_ratio_of_features)):
     print "Principal component#{}, explained variance:{}".format(index_+1, variance_ratio_of_features[index_])
 print "-"*50
-no_features_to_use = 5 #using one PCA you get lesser accuracy
+no_features_to_use = 4 #using one PCA you get lesser accuracy
 pcaObj.n_components=no_features_to_use
 selected_features = pcaObj.fit_transform(feature_input_for_pca)
 print "Selected feature dataset size:", np.shape(selected_features)
 print "-"*50
 
-outputDir = '/Users/akond/Documents/AkondOneDrive/OneDrive/ProcessInIaC/output/ICSE19_TSE/SIZE-NODE-' +   dataset_file.split('/')[-1] + '/'
+outputDir = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/PRED-NODE-OUTPUT-' +   dataset_file.split('/')[-1] + '/'
 process_metric_utility.createOutputDirectory(outputDir)
 print 'Output directory created ...'
 sklearn_utility.performIterativeModeling(selected_features, all_labels, 10, 10, outputDir)

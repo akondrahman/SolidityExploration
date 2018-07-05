@@ -11,9 +11,10 @@ import cliffsDelta
 # v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
 # v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
 # all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL.csv"
-
 # all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv"
-all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv"
+
+# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv"
+all_file  = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/LOCKED_FINAL_GITHUB.csv'
 
 
 def giveTimeStamp():
@@ -30,9 +31,10 @@ for dataset_file in dataset_files:
     print "Dataset:", name
     df2read = pd.read_csv(dataset_file)
     features = df2read.columns
-    dropcols = ['file_', 'defect_status', 'org', 'FILE']
+    dropcols = ['defect_status', 'org', 'FILE', 'file_']
     features2see = [x_ for x_ in features if x_ not in dropcols]
     for feature_ in features2see:
+          #  print feature_
            '''
            all data summary
            '''
