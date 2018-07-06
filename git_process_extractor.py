@@ -310,28 +310,31 @@ def getNonSolPerc(param_file_path, repo_path):
     theFile       = os.path.relpath(param_file_path, repo_path)
     command       = " git log -p " + theFile + "  | grep 'diff' "
     command2Run   = cdCommand + command
+    try:
+        diff_lines    = subprocess.check_output(['bash','-c', command2Run])
+        diff_lines    = diff_lines.split('\n')
+        diff_lines    = [x_ for x_ in diff_lines if x_ != '\n' ]
+        non_sol_per_lis = []
+        for log_output in diff_lines:
+            log_output    = log_output.split(' ')
+            log_output    = [x_ for x_ in log_output if (('/' in x_) and ('.' in x_))]    
+            sol_files     = [x_ for x_ in log_output if x_.endswith('.sol')]       
+            non_sol_files = [x_ for x_ in log_output if x_.endswith('.sol')==False] 
+            print sol_files, non_sol_files
+            tot_files     = len(sol_files) + len(non_sol_files)
+            if tot_files < 1:
+               tot_files += 1
+            if len(non_sol_files) < 1:
+               non_sol_cnt  = 0
+            else:
+               non_sol_cnt = len(non_sol_files) 
+            non_sol_per   = float(non_sol_cnt)/float(tot_files)      
+            non_sol_per_lis.append(non_sol_per)
+        if (len(non_sol_per_lis) > 0):
+           final_metric = np.mean(non_sol_per_lis)       
+    except subprocess.CalledProcessError as e_:
+        print 'Exception in Git mining ... skipping:' + e_.message
 
-    diff_lines    = subprocess.check_output(['bash','-c', command2Run])
-    diff_lines    = diff_lines.split('\n')
-    diff_lines    = [x_ for x_ in diff_lines if x_ != '\n' ]
-    non_sol_per_lis = []
-    for log_output in diff_lines:
-        log_output    = log_output.split(' ')
-        log_output    = [x_ for x_ in log_output if (('/' in x_) and ('.' in x_))]    
-        sol_files     = [x_ for x_ in log_output if x_.endswith('.sol')]       
-        non_sol_files = [x_ for x_ in log_output if x_.endswith('.sol')==False] 
-        print sol_files, non_sol_files
-        tot_files     = len(sol_files) + len(non_sol_files)
-        if tot_files < 1:
-            tot_files += 1
-        if len(non_sol_files) < 1:
-            non_sol_cnt  = 0
-        else:
-            non_sol_cnt = len(non_sol_files) 
-        non_sol_per   = float(non_sol_cnt)/float(tot_files)      
-        non_sol_per_lis.append(non_sol_per)
-    if (len(non_sol_per_lis) > 0):
-       final_metric = np.mean(non_sol_per_lis)
     return final_metric
 
 def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
