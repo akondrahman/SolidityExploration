@@ -9,6 +9,7 @@ import os
 
 def getAllProcessMetricsForSingleFile(full_path_param, repo_path_param, prog_to_file_dict, org_of_file):
       process_metrics         =  git_process_extractor.getProcessMetrics(full_path_param, repo_path_param, prog_to_file_dict)
+      print "-"*50
       print process_metrics
       print "Generated the process metrics ... "
       print "-"*50
@@ -67,7 +68,7 @@ print 'Done loading all file to programmer mapping ....'
 print '-'*100
 str_ = getAllProcessMetricForAllFiles(fullPuppMap, datasetFile2Save, prog_to_file_dict, ORG)
 print "-"*100
-print "We analyzed {} Puppet files".format(len(fullPuppMap))
+print "We analyzed {} Solidity files".format(len(fullPuppMap))
 print "-"*100
 print "Ended at:", process_metric_utility.giveTimeStamp()
 print "-"*100

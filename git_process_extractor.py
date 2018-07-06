@@ -39,7 +39,8 @@ def calculateMonthDiffFromTwoDates(early, latest):
 
     return (latest_dt.year - early_dt.year)*12 + latest_dt.month - early_dt.month
 def getAge(param_file_path, repo_path):
-   totalCountForChurn   = 0
+   earliestMonth   = '2015-08'
+   age = '0'
 
    cdCommand            = "cd " + repo_path + " ; "
    theFile              = os.path.relpath(param_file_path, repo_path)
@@ -56,13 +57,15 @@ def getAge(param_file_path, repo_path):
    monthAndYeatList.sort()
    #print monthAndYeatList
    if len(monthAndYeatList) > 1:
-    earliesttMonth  = monthAndYeatList[0]
+    earliestMonth  = monthAndYeatList[0]
     latesttMonth    = monthAndYeatList[-1]
-    age = str(calculateMonthDiffFromTwoDates(earliesttMonth, latesttMonth))
+    age = str(calculateMonthDiffFromTwoDates(earliestMonth, latesttMonth))
+   elif len(monthAndYeatList) > 0:
+        earliestMonth  = monthAndYeatList[0]
    else:
     age = '0'
    #print age
-   return age, earliesttMonth
+   return age, earliestMonth
 
 
 
