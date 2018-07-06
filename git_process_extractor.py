@@ -300,7 +300,34 @@ def getDeveloperScatternessOfFile(param_file_path, repo_path, sloc):
    #return scatterness_prob, scatterness_cnt
    return scatterness_cnt
 
+'''
+neew metric: non soliodity percentage per commit, normalized by number of commits
+'''
 
+def getNonSolPerc(param_file_path, repo_path):
+    final_metric = 0.0
+    cdCommand     = "cd " + repo_path + " ; "
+    theFile       = os.path.relpath(param_file_path, repo_path)
+    command       = " git log -p " + theFile + "  | grep 'diff' "
+    command2Run   = cdCommand + command
+
+    diff_lines    = subprocess.check_output(['bash','-c', command2Run])
+    diff_lines    = diff_lines.split('\n')
+    diff_lines    = [x_ for x_ in diff_lines if x_ != '\n' ]
+    non_sol_per_lis = []
+    for log_output in diff_lines:
+        log_output    = log_output.split(' ')
+        log_output    = [x_ for x_ in log_output if (('/' in x_) and ('.' in x_))]    
+        sol_files     = [x_ for x_ in log_output if x_.endswith('.sol')]       
+        non_sol_files = [x_ for x_ in log_output if x_.endswith('.sol')==False] 
+        tot_files     = sol_files + non_sol_files
+        if tot_files < 1:
+            tot_files += 1
+        non_sol_per   = float(len(non_sol_files))/float(tot_files)      
+        non_sol_per_lis.append(non_sol_per)
+    if (len(non_sol_per_lis) > 0):
+       final_metric = np.mean(non_sol_per_lis)
+    return final_metric
 
 def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     #get commit count
@@ -378,6 +405,11 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     else:
        prog_mt_pp_perc,  prog_mt_non_pp_perc = 0, 0
 
+    '''
+    new metric, number of non solidity files added each commit, normalized by number of commits 
+    '''
+    non_sol_per = getNonSolPerc(file_path_p, repo_path_p)
+
     ## all process metrics
     #all_process_metrics = str(COMM) + ',' + str(AGE) + ',' + str(DEV) + ',' + str(AVGTIMEOFEDITS) + ',' + str(ADDPERLOC) + ','
     all_process_metrics = str(COMM) + ',' + str(AGE) + ',' + str(DEV) + ',' + str(ADDPERLOC) + ','
@@ -388,5 +420,5 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
 
     #all_process_metrics = all_process_metrics + str(COMM_SIZE) + ',' + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ','
 
-    all_process_metrics = all_process_metrics + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ','
+    all_process_metrics = all_process_metrics + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ',' + str(non_sol_per)
     return all_process_metrics
