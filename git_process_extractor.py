@@ -62,7 +62,7 @@ def getAge(param_file_path, repo_path):
    else:
     age = '0'
    #print age
-   return age
+   return age, earliesttMonth
 
 
 
@@ -341,7 +341,7 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     #get commit count
     COMM = getCommitCount(file_path_p, repo_path_p)
     #get age
-    AGE  = getAge(file_path_p, repo_path_p)
+    AGE, CREATION_DATE  = getAge(file_path_p, repo_path_p)
     #get DEV
     DEV = getUniqueDevCount(file_path_p, repo_path_p)
     #get AVERAGE TIME BETWEEN EDITS
@@ -427,6 +427,6 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     all_process_metrics = all_process_metrics + str(AVGCHNG) + ',' + str(MINOR) + ','  + str(SCTR) + ','
 
     #all_process_metrics = all_process_metrics + str(COMM_SIZE) + ',' + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ','
-    # all_process_metrics = all_process_metrics + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ',' + str(non_sol_per) + ','
+    all_process_metrics = all_process_metrics + str(CREATION_DATE) + ','
 
     return all_process_metrics

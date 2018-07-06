@@ -59,10 +59,10 @@ def createDataset(str2Dump, datasetNameParam):
    #headerOfFile2='DELPERLOC,ADDNORM,DELNORM,AVGCHNG,MINOR,OWN,SCTR,'
    headerOfFile2='DELPERLOC,SUMCHNG,TOTCHNGPERLOC,AVGCHNG,MINOR,SCTR,'
    #headerOfFile3='COMM_SIZE,MT_PP, MT_NON_PP,'
-   #headerOfFile3='NON_SOL_PER,'
+   headerOfFile3='CREATION_DATE,'
    headerOfFile4='defect_status'
 
-   headerStr = headerOfFile0 + headerOfFile1 + headerOfFile2   + headerOfFile4
+   headerStr = headerOfFile0 + headerOfFile1 + headerOfFile2 + headerOfFile3  + headerOfFile4
 
    str2Write = headerStr + '\n' + str2Dump
    return dumpContentIntoFile(str2Write, datasetNameParam)

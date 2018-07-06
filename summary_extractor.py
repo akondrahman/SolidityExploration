@@ -31,7 +31,7 @@ for dataset_file in dataset_files:
     print "Dataset:", name
     df2read = pd.read_csv(dataset_file)
     features = df2read.columns
-    dropcols = ['defect_status', 'org', 'FILE', 'file_']
+    dropcols = ['defect_status', 'org', 'FILE', 'file_', 'CREATION_DATE']
     features2see = [x_ for x_ in features if x_ not in dropcols]
     for feature_ in features2see:
           #  print feature_
