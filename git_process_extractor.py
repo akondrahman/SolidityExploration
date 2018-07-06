@@ -320,7 +320,7 @@ def getNonSolPerc(param_file_path, repo_path):
             log_output    = [x_ for x_ in log_output if (('/' in x_) and ('.' in x_))]    
             sol_files     = [x_ for x_ in log_output if x_.endswith('.sol')]       
             non_sol_files = [x_ for x_ in log_output if x_.endswith('.sol')==False] 
-            print sol_files, non_sol_files
+            #print sol_files, non_sol_files
             tot_files     = len(sol_files) + len(non_sol_files)
             if tot_files < 1:
                tot_files += 1
@@ -416,7 +416,7 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     '''
     new metric, number of non solidity files added each commit, normalized by number of commits 
     '''
-    non_sol_per = getNonSolPerc(file_path_p, repo_path_p)
+    #non_sol_per = getNonSolPerc(file_path_p, repo_path_p)
 
     ## all process metrics
     #all_process_metrics = str(COMM) + ',' + str(AGE) + ',' + str(DEV) + ',' + str(AVGTIMEOFEDITS) + ',' + str(ADDPERLOC) + ','
@@ -427,6 +427,6 @@ def getProcessMetrics(file_path_p, repo_path_p, prog_to_file_dict):
     all_process_metrics = all_process_metrics + str(AVGCHNG) + ',' + str(MINOR) + ','  + str(SCTR) + ','
 
     #all_process_metrics = all_process_metrics + str(COMM_SIZE) + ',' + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ','
+    # all_process_metrics = all_process_metrics + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ',' + str(non_sol_per) + ','
 
-    all_process_metrics = all_process_metrics + str(prog_mt_pp_perc) + ',' + str(prog_mt_non_pp_perc) + ',' + str(non_sol_per)
     return all_process_metrics
