@@ -320,10 +320,15 @@ def getNonSolPerc(param_file_path, repo_path):
         log_output    = [x_ for x_ in log_output if (('/' in x_) and ('.' in x_))]    
         sol_files     = [x_ for x_ in log_output if x_.endswith('.sol')]       
         non_sol_files = [x_ for x_ in log_output if x_.endswith('.sol')==False] 
-        tot_files     = sol_files + non_sol_files
+        print sol_files, non_sol_files
+        tot_files     = len(sol_files) + len(non_sol_files)
         if tot_files < 1:
             tot_files += 1
-        non_sol_per   = float(len(non_sol_files))/float(tot_files)      
+        if len(non_sol_files) < 1:
+            non_sol_cnt  = 0
+        else:
+            non_sol_cnt = len(non_sol_files) 
+        non_sol_per   = float(non_sol_cnt)/float(tot_files)      
         non_sol_per_lis.append(non_sol_per)
     if (len(non_sol_per_lis) > 0):
        final_metric = np.mean(non_sol_per_lis)
