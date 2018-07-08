@@ -27,52 +27,54 @@ def getSolFiles(the_dir, out_f):
                 avoid_throw, reentrancy, avoid_sha, avoid_sui, func_visi, state_vis, check_send, avoid_call, comp_fix = 0, 0, 0, 0, 0, 0, 0, 0, 0
                 comp_gt, comp_fall, call_contr, mult_send, simp_even, tx_orig, inli_asse, block_hash, low_level = 0, 0, 0, 0, 0, 0, 0, 0, 0
                 if os.path.exists(full_file_path):
-                    print full_file_path
-                    cmd_of_interrest = "solhint -f unix " + full_file_path + " > " + the_dir + "ANA_SOL_TMP.LOG"
-                    try:
+                   sloc_for_file      = sum(1 for line in open(full_file_path))
+                   if sloc_for_file > 1:
+                     print full_file_path
+                     cmd_of_interrest = "solhint -f unix " + full_file_path + " > " + the_dir + "ANA_SOL_TMP.LOG"
+                     try:
                         subprocess.check_output(['bash','-c', cmd_of_interrest])
-                    except subprocess.CalledProcessError as e_:
+                     except subprocess.CalledProcessError as e_:
                         print 'Interesting ...' + str(e_)
-                    file_lines = getOutputLines(the_dir)
-                    # print file_lines
+                     file_lines = getOutputLines(the_dir)
+                     # print file_lines
 
-                    avoid_throw = getSecuIssueCount(file_lines, 'Error/avoid-throw')
-                    reentrancy  = getSecuIssueCount(file_lines, 'Error/reentrancy')
-                    avoid_sha   =  getSecuIssueCount(file_lines, 'Error/avoid-sha3')
-                    avoid_sui   = getSecuIssueCount(file_lines, 'Error/avoid-suicide')
-                    func_visi   =  getSecuIssueCount(file_lines, 'Error/func-visibility')
-                    state_vis   =  getSecuIssueCount(file_lines, 'Error/state-visibility')
-                    check_send  =  getSecuIssueCount(file_lines, 'Error/check-send-result')
-                    avoid_call  =  getSecuIssueCount(file_lines, 'Error/avoid-call-value')
-                    comp_fix    = getSecuIssueCount(file_lines, 'Error/compiler-fixed')
-                    comp_gt     =  getSecuIssueCount(file_lines, 'Error/compiler-gt-0_4')
-                    comp_fall   = getSecuIssueCount(file_lines, 'Error/no-complex-fallback')
-                    call_contr  =  getSecuIssueCount(file_lines, 'Error/mark-callable-contracts')
-                    mult_send   =  getSecuIssueCount(file_lines, 'Error/multiple-sends')
-                    simp_even   = getSecuIssueCount(file_lines, 'Error/no-simple-event-func-name')
-                    tx_orig     = getSecuIssueCount(file_lines, 'Error/avoid-tx-origin')
-                    inli_asse   = getSecuIssueCount(file_lines, 'Error/no-inline-assembly')
-                    block_hash  = getSecuIssueCount(file_lines, 'Error/not-rely-on-block-hash')
-                    low_level   = getSecuIssueCount(file_lines, 'Error/avoid-low-level-calls')
+                     avoid_throw = getSecuIssueCount(file_lines, 'Error/avoid-throw')
+                     reentrancy  = getSecuIssueCount(file_lines, 'Error/reentrancy')
+                     avoid_sha   =  getSecuIssueCount(file_lines, 'Error/avoid-sha3')
+                     avoid_sui   = getSecuIssueCount(file_lines, 'Error/avoid-suicide')
+                     func_visi   =  getSecuIssueCount(file_lines, 'Error/func-visibility')
+                     state_vis   =  getSecuIssueCount(file_lines, 'Error/state-visibility')
+                     check_send  =  getSecuIssueCount(file_lines, 'Error/check-send-result')
+                     avoid_call  =  getSecuIssueCount(file_lines, 'Error/avoid-call-value')
+                     comp_fix    = getSecuIssueCount(file_lines, 'Error/compiler-fixed')
+                     comp_gt     =  getSecuIssueCount(file_lines, 'Error/compiler-gt-0_4')
+                     comp_fall   = getSecuIssueCount(file_lines, 'Error/no-complex-fallback')
+                     call_contr  =  getSecuIssueCount(file_lines, 'Error/mark-callable-contracts')
+                     mult_send   =  getSecuIssueCount(file_lines, 'Error/multiple-sends')
+                     simp_even   = getSecuIssueCount(file_lines, 'Error/no-simple-event-func-name')
+                     tx_orig     = getSecuIssueCount(file_lines, 'Error/avoid-tx-origin')
+                     inli_asse   = getSecuIssueCount(file_lines, 'Error/no-inline-assembly')
+                     block_hash  = getSecuIssueCount(file_lines, 'Error/not-rely-on-block-hash')
+                     low_level   = getSecuIssueCount(file_lines, 'Error/avoid-low-level-calls')
 
-                    total1      = avoid_throw + reentrancy + avoid_sha +  avoid_sui + func_visi +  state_vis + check_send + avoid_call + comp_fix
-                    total2      = comp_gt + comp_fall + call_contr + mult_send + simp_even + tx_orig + inli_asse + block_hash + low_level
-                    # total       = total1 + total2
-                    # print avoid_throw, reentrancy, avoid_sha, avoid_sui, func_visi, state_vis, check_send, avoid_call, comp_fix
-                    # print comp_gt, comp_fall, call_contr, mult_send, simp_even, tx_orig, inli_asse, block_hash, low_level
-                    # print total
-                    # str1_ = full_file_path + ',' + str(avoid_throw) + ',' + str(reentrancy) + ',' + str(avoid_sha) + ',' + str(avoid_sui) + ',' + str(func_visi) + ',' + str(state_vis) + ',' + str(check_send) + ',' + str(avoid_call) + ',' + str(comp_fix) + ','
-                    # str2_ = str(comp_gt) + ',' + str(comp_fall) + ',' + str(call_contr) + ',' + str(mult_send) + ',' + str(simp_even) + ',' + str(tx_orig) + ',' + str(inli_asse) + ',' + str(block_hash) + ',' + str(low_level) + ',' + str(total)
-                    # str_ =  str_ + str1_ + str2_ + '\n'
-                    total = reentrancy + check_send + tx_orig 
-                    '''
-                    not all smells  are threats so not considerign all
-                    '''
-                    str1_ = full_file_path + ',' + str(reentrancy) + ',' + str(check_send) + ','
-                    str2_ = str(tx_orig) + ',' + str(total)
-                    str_ =  str_ + str1_ + str2_ + '\n'                    
-                    # print str_
-                    print '='*50
+                     total1      = avoid_throw + reentrancy + avoid_sha +  avoid_sui + func_visi +  state_vis + check_send + avoid_call + comp_fix
+                     total2      = comp_gt + comp_fall + call_contr + mult_send + simp_even + tx_orig + inli_asse + block_hash + low_level
+                     # total       = total1 + total2
+                     # print avoid_throw, reentrancy, avoid_sha, avoid_sui, func_visi, state_vis, check_send, avoid_call, comp_fix
+                     # print comp_gt, comp_fall, call_contr, mult_send, simp_even, tx_orig, inli_asse, block_hash, low_level
+                     # print total
+                     # str1_ = full_file_path + ',' + str(avoid_throw) + ',' + str(reentrancy) + ',' + str(avoid_sha) + ',' + str(avoid_sui) + ',' + str(func_visi) + ',' + str(state_vis) + ',' + str(check_send) + ',' + str(avoid_call) + ',' + str(comp_fix) + ','
+                     # str2_ = str(comp_gt) + ',' + str(comp_fall) + ',' + str(call_contr) + ',' + str(mult_send) + ',' + str(simp_even) + ',' + str(tx_orig) + ',' + str(inli_asse) + ',' + str(block_hash) + ',' + str(low_level) + ',' + str(total)
+                     # str_ =  str_ + str1_ + str2_ + '\n'
+                     total = reentrancy + check_send + tx_orig 
+                     '''
+                     not all smells  are threats so not considerign all
+                     '''
+                     str1_ = full_file_path + ',' + str(reentrancy) + ',' + str(check_send) + ','
+                     str2_ = str(tx_orig) + ',' + str(total)
+                     str_ =  str_ + str1_ + str2_ + '\n'                    
+                     # print str_
+                     print '='*50
 
     # str_ = 'FILE,AVOID_THROW,REENTRANCY,AVOID_SHA,AVOID_SUI,FUNC_VISI,STATE_VIS,CHECK_SEND,AVOID_CALL,COMP_FIX,COMP_GT,COMP_FALL,CALL_CONTR,MULT_SEND,SIMP_EVEN,TX_ORIG,INLIASS,BLOCK_HASH,LOW_LEVEL,TOTAL' + '\n' + str_
     str_ = 'FILE,REENTRANCY,CHECK_SEND,TX_ORIG,TOTAL' + '\n' + str_    
