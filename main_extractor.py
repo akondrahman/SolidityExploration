@@ -24,13 +24,15 @@ def getAllProcessMetricForAllFiles(pupp_map_dict_param, datasetFile2Save, prog_t
    '''
    for file_, details_ in pupp_map_dict_param.items():
      if (file_!= 'WTF') and (os.path.exists(file_)):
-        fileCount = fileCount + 1
-        repo_                    = details_[0]
-        defect_status            = details_[1]
-        print "Analyzing ... \nfile#{}\ndefect status:{}\nfile:{}\nrepo:{}".format(fileCount, defect_status, file_, repo_)
-        all_metric_for_this_file = getAllProcessMetricsForSingleFile(file_, repo_, prog_to_file_dict, org_name)
-        str2ret = str2ret + all_metric_for_this_file + defect_status + '\n'
-        print "="*75
+        sloc_for_file      = sum(1 for line in open(file_))
+        if sloc_for_file > 1:
+           fileCount = fileCount + 1
+           repo_                    = details_[0]
+           defect_status            = details_[1]
+           print "Analyzing ... \nfile#{}\ndefect status:{}\nfile:{}\nrepo:{}".format(fileCount, defect_status, file_, repo_)
+           all_metric_for_this_file = getAllProcessMetricsForSingleFile(file_, repo_, prog_to_file_dict, org_name)
+           str2ret = str2ret + all_metric_for_this_file + defect_status + '\n'
+           print "="*75
    dump_stats = process_metric_utility.createDataset(str2ret, datasetFile2Save)
    print "Dumped a file of {} bytes".format(dump_stats)
    return str2ret
