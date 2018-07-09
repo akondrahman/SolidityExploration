@@ -1,5 +1,6 @@
 import os
 import subprocess
+import csv 
 
 def dumpContentIntoFile(strP, fileP):
   fileToWrite = open( fileP, 'w')
@@ -18,7 +19,29 @@ def getSecuIssueCount(file_lines, the_str):
     cnt2ret = sum(the_str in s_ for s_ in file_lines)
     return cnt2ret
 
-def getSolFiles(the_dir, out_f):
+def getOyenteData(inp_fil):
+    oyente_dict ={}
+    getVal = lambda x: 1 if (x=='TRUE') else 0
+    with open(inp_fil, 'rU') as file_:
+      reader_ = csv.reader(file_)
+      next(reader_, None)
+      for row_ in reader_:
+          callst, concurr, time, reent = 0, 0, 0, 0
+          file_name_ = row_[0]
+          full_file_path = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources' + file_name_ 
+          if os.path.exists(full_file_path):             
+             CALLSTACK	 = row_[1]
+             CONCURRENCY = row_[2]	
+             TIME        = row_[3]
+             REENTRANCY  = row_[4]
+             callst, concurr, time, reent = getVal(CALLSTACK), getVal(CONCURRENCY), getVal(TIME), getVal(REENTRANCY)
+             if full_file_path not in oyente_dict:
+                oyente_dict[full_file_path] = (callst, concurr, time, reent)
+    return oyente_dict
+
+
+
+def getSolFiles(the_dir, out_f, oyente_param):
     str_ = ''
     for root_, dirnames, filenames in os.walk(the_dir):
         for file_ in filenames:
@@ -37,6 +60,9 @@ def getSolFiles(the_dir, out_f):
                         print 'Interesting ...' + str(e_)
                      file_lines = getOutputLines(the_dir)
                      # print file_lines
+                     callst, concurr, time, reent = 0, 0, 0, 0
+                     if full_file_path in oyente_param:
+                        callst, concurr, time, reent = oyente_param[full_file_path]
 
                      avoid_throw = getSecuIssueCount(file_lines, 'Error/avoid-throw')
                      reentrancy  = getSecuIssueCount(file_lines, 'Error/reentrancy')
@@ -66,22 +92,27 @@ def getSolFiles(the_dir, out_f):
                      # str1_ = full_file_path + ',' + str(avoid_throw) + ',' + str(reentrancy) + ',' + str(avoid_sha) + ',' + str(avoid_sui) + ',' + str(func_visi) + ',' + str(state_vis) + ',' + str(check_send) + ',' + str(avoid_call) + ',' + str(comp_fix) + ','
                      # str2_ = str(comp_gt) + ',' + str(comp_fall) + ',' + str(call_contr) + ',' + str(mult_send) + ',' + str(simp_even) + ',' + str(tx_orig) + ',' + str(inli_asse) + ',' + str(block_hash) + ',' + str(low_level) + ',' + str(total)
                      # str_ =  str_ + str1_ + str2_ + '\n'
-                     total = reentrancy + check_send + tx_orig 
+                     total = reentrancy + check_send + tx_orig + time  ## only using time time dependence for oeynte results 
                      '''
-                     not all smells  are threats so not considerign all
+                     not all smells  are threats so not considering all
                      '''
                      str1_ = full_file_path + ',' + str(reentrancy) + ',' + str(check_send) + ','
-                     str2_ = str(tx_orig) + ',' + str(total)
+                     str2_ = str(tx_orig) + ',' + str(time) + ',' + str(total)
                      str_ =  str_ + str1_ + str2_ + '\n'                    
                      # print str_
                      print '='*50
 
     # str_ = 'FILE,AVOID_THROW,REENTRANCY,AVOID_SHA,AVOID_SUI,FUNC_VISI,STATE_VIS,CHECK_SEND,AVOID_CALL,COMP_FIX,COMP_GT,COMP_FALL,CALL_CONTR,MULT_SEND,SIMP_EVEN,TX_ORIG,INLIASS,BLOCK_HASH,LOW_LEVEL,TOTAL' + '\n' + str_
-    str_ = 'FILE,REENTRANCY,CHECK_SEND,TX_ORIG,TOTAL' + '\n' + str_    
+    str_ = 'FILE,REENTRANCY,CHECK_SEND,TX_ORIG,TIME_DEPE,TOTAL' + '\n' + str_    
     out_sta = dumpContentIntoFile(str_, out_f)
     print 'Dumped a file of {} bytes'.format(out_sta)
 
 if __name__=='__main__':
+   ### first get oyente values 
+   oyente_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_OYENTE.csv'
+   oyente_dict = getOyenteData(oyente_file)
+   
+
    inp_dir = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V5/final_repos/'
    out_file = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_SECU_SOLHINT.csv'
-   getSolFiles(inp_dir, out_file)
+   getSolFiles(inp_dir, out_file, oyente_dict)
