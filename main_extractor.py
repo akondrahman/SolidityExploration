@@ -5,7 +5,7 @@ Akond Rahman
 '''
 import git_process_extractor, process_metric_utility
 import cPickle as pickle
-import os 
+import os
 
 def getAllProcessMetricsForSingleFile(full_path_param, repo_path_param, prog_to_file_dict, org_of_file):
       process_metrics         =  git_process_extractor.getProcessMetrics(full_path_param, repo_path_param, prog_to_file_dict)
@@ -38,14 +38,11 @@ def getAllProcessMetricForAllFiles(pupp_map_dict_param, datasetFile2Save, prog_t
    return str2ret
 
 
-'''
-Solidity Mining
-June 18, 2018
-'''
-org_name = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V5/final_repos/'
-theCompleteCategFile='/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_SECU_SOLHINT.csv'
-datasetFile2Save='/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_PROCESS_GITHUB.csv'
-pkl_fil_nam='/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_GITHUB_PROG_DICT.p'
+
+org_name = '/Users/akond/Summers/IBM_Internship_materials/V5/final_repos/'
+theCompleteCategFile='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_SECU_SOLHINT.csv'
+datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_PROCESS_GITHUB.csv'
+pkl_fil_nam='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_GITHUB_PROG_DICT.p'
 ORG   = 'GITHUB'
 
 # org_name = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'
