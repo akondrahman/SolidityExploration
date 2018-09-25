@@ -9,7 +9,7 @@ import numpy as np
 import cliffsDelta
 
 
-all_file  = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/V1/FINAL_PROCESS_GITHUB_PROCESSED.csv'
+all_file  = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/V2/FINAL_PROCESS_GITHUB.csv'
 
 
 def giveTimeStamp():
