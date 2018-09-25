@@ -4,8 +4,7 @@ April 01, 2017
 utility file for process metric
 '''
 import ctypes
-from collections import Counter
-import os, csv, numpy as np, time, datetime
+import csv, numpy as np, time, datetime
 import os, subprocess, numpy as np, operator
 from  collections import Counter
 from scipy.stats import entropy
@@ -54,18 +53,22 @@ def giveTimeStamp():
 
 def createDataset(str2Dump, datasetNameParam):
    headerOfFile0='org,file_,'
-   #headerOfFile1='COMM,AGE,DEV,AVGTIMEOFEDITS,ADDPERLOC,'
-   headerOfFile1='COMM,AGE,DEV,ADDPERLOC,'
-   #headerOfFile2='DELPERLOC,ADDNORM,DELNORM,AVGCHNG,MINOR,OWN,SCTR,'
-   headerOfFile2='DELPERLOC,SUMCHNG,TOTCHNGPERLOC,AVGCHNG,MINOR,SCTR,'
-   #headerOfFile3='COMM_SIZE,MT_PP, MT_NON_PP,'
-   headerOfFile3='CREATION_DATE,'
+   headerOfFile1='COMM,AGE,DEV,AVGTIMEOFEDITS,ADDPERLOC,'
+   #headerOfFile1='COMM,AGE,DEV,ADDPERLOC,'
+   
+   headerOfFile2='DELPERLOC,ADDNORM,DELNORM,AVGCHNG,MINOR,OWN,SCTR,'
+   #headerOfFile2='DELPERLOC,SUMCHNG,TOTCHNGPERLOC,AVGCHNG,MINOR,SCTR,'
+   
+   headerOfFile3='COMM_SIZE,MT_PP, MT_NON_PP,SLOC,'
+   #headerOfFile3='CREATION_DATE,'
+   
    headerOfFile4='defect_status'
 
    headerStr = headerOfFile0 + headerOfFile1 + headerOfFile2 + headerOfFile3  + headerOfFile4
 
    str2Write = headerStr + '\n' + str2Dump
    return dumpContentIntoFile(str2Write, datasetNameParam)
+
 
 def getDatasetFromCSV(fileParam, dataTypeFlag=True):
   if dataTypeFlag:
@@ -96,7 +99,7 @@ def getMercurialProgrammerList(file_with_rel_path, repo_path):
 def getRepoList(org_name_p):
     repoList2Ret = []
     repoList2Ret = os.listdir(org_name_p)
-    
+
     return repoList2Ret
 
 def getMercurialProgToFileMapping(org_name_p):

@@ -19,25 +19,6 @@ def getSecuIssueCount(file_lines, the_str):
     cnt2ret = sum(the_str in s_ for s_ in file_lines)
     return cnt2ret
 
-def getOyenteData(inp_fil):
-    oyente_dict ={}
-    getVal = lambda x: 1 if (x=='TRUE') else 0
-    with open(inp_fil, 'rU') as file_:
-      reader_ = csv.reader(file_)
-      next(reader_, None)
-      for row_ in reader_:
-          callst, concurr, time, reent = 0, 0, 0, 0
-          file_name_ = row_[0]
-          full_file_path = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources' + file_name_
-          if os.path.exists(full_file_path):
-             CALLSTACK	 = row_[1]
-             CONCURRENCY = row_[2]
-             TIME        = row_[3]
-             REENTRANCY  = row_[4]
-             callst, concurr, time, reent = getVal(CALLSTACK), getVal(CONCURRENCY), getVal(TIME), getVal(REENTRANCY)
-             if full_file_path not in oyente_dict:
-                oyente_dict[full_file_path] = (callst, concurr, time, reent)
-    return oyente_dict
 
 
 
@@ -109,10 +90,6 @@ def getSolFiles(the_dir, out_f):
     print 'Dumped a file of {} bytes'.format(out_sta)
 
 if __name__=='__main__':
-   ### first get oyente values
-   oyente_file = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_OYENTE.csv'
-   oyente_dict = getOyenteData(oyente_file)
-
 
    inp_dir = '/Users/akond/Summers/IBM_Internship_materials/V5/final_repos/'
    out_file = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_SECU_SOLHINT.csv'

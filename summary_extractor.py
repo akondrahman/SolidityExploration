@@ -8,13 +8,8 @@ import pandas as pd
 import numpy as np
 import cliffsDelta
 
-# v3_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
-# v4_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_V3.csv"
-# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL.csv"
-# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_ALL_FINAL.csv"
 
-# all_file = "/Users/akond.rahman/Documents/Personal/misc/solidity_output/GITHUB_STATUS_ONLY.csv"
-all_file  = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/FINAL_PROCESS_GITHUB.csv'
+all_file  = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/V1/FINAL_PROCESS_GITHUB_PROCESSED.csv'
 
 
 def giveTimeStamp():
@@ -49,12 +44,12 @@ for dataset_file in dataset_files:
            '''
            print 'THE FEATURE IS:', feature_
            print '='*25
-           print "Defective values [MEDIAN]:{}, [MEAN]:{}".format(np.median(list(defective_vals_for_feature)), np.mean(list(defective_vals_for_feature)))
-           print "Non Defective values [MEDIAN]:{}, [MEAN]:{}".format(np.median(list(non_defective_vals_for_feature)), np.mean(list(non_defective_vals_for_feature)))
-           try: 
+           print "Defective values [MEDIAN]:{}, [MEAN]:{}, [COUNT]:{}".format(np.median(list(defective_vals_for_feature)), np.mean(list(defective_vals_for_feature)), len(defective_vals_for_feature))
+           print "Non Defective values [MEDIAN]:{}, [MEAN]:{}, [COUNT]:{}".format(np.median(list(non_defective_vals_for_feature)), np.mean(list(non_defective_vals_for_feature)), len(non_defective_vals_for_feature))
+           try:
               TS, p = stats.mannwhitneyu(list(defective_vals_for_feature), list(non_defective_vals_for_feature), alternative='greater')
-           except ValueError: 
-              TS, p = 0.0, 1.0 
+           except ValueError:
+              TS, p = 0.0, 1.0
            cliffs_delta = cliffsDelta.cliffsDelta(list(defective_vals_for_feature), list(non_defective_vals_for_feature))
            print '*'*25
            print 'Feature:{}, pee value:{}, cliffs:{}'.format(feature_, p, cliffs_delta)

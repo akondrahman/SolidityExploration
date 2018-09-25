@@ -2,7 +2,7 @@
 '''
 Akond Rahman
 June 25, 2017
-Monday 
+Monday
 Feature importance for Solidity Metrics using RF
 '''
 from sklearn.feature_selection import RFE
@@ -55,8 +55,8 @@ def calcFeatureImp(feature_vec, label_vec, feature_names_param, output_file, rep
 
 
 if __name__=='__main__':
-   ds_file_name       = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/LOCKED_FINAL_GITHUB.csv'
-   output_file_param  = '/Users/akond.rahman/Documents/Personal/misc/solidity_output/FEAT_IMP_LOCKED.csv'
+   ds_file_name       = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/V1/FINAL_PROCESS_GITHUB_FEAT_IMP.csv'
+   output_file_param  = '/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/V1/FEAT_IMP_LOCKED.csv'
 
    full_ds=readDataset(ds_file_name)
    full_rows, full_cols = np.shape(full_ds)

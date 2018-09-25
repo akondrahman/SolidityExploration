@@ -43,7 +43,7 @@ org_name = '/Users/akond/Summers/IBM_Internship_materials/V5/final_repos/'
 theCompleteCategFile='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_SECU_SOLHINT.csv'
 datasetFile2Save='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_PROCESS_GITHUB.csv'
 pkl_fil_nam='/Users/akond/Documents/AkondOneDrive/OneDrive/solidity-nier2018/results/FINAL_GITHUB_PROG_DICT.p'
-ORG   = 'GITHUB'
+ORG  = 'GITHUB'
 
 # org_name = '/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/'
 # theCompleteCategFile='/Users/akond.rahman/Documents/Personal/smart_contracts_research/data_sources/V4/FINAL_SECU_SOLHINT.csv'
