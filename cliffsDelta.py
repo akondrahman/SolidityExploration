@@ -40,4 +40,4 @@ def _cliffsDelta():
   lst1=[1,2,3,4,5,6,7]
   for r in [1.01,1.1,1.21, 1.5, 2]:
     lst2=map(lambda x: x*r,lst1)
-    print r,cliffsDelta(lst1,lst2) # should return False
+    print(r,cliffsDelta(lst1,lst2)) # should return False
