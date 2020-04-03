@@ -10,6 +10,22 @@ import subprocess
 import pandas as pd 
 import numpy as np 
 
+def doCleanUp(dir_name, ext_name):
+    ext_, non_ext = [], []
+    for root_, dirs, files_ in os.walk(dir_name):
+       for file_ in files_:
+           full_p_file = os.path.join(root_, file_)
+           if(os.path.exists(full_p_file)):
+             if (full_p_file.endswith( ext_name )):
+               ext_.append(full_p_file)
+             else:
+               non_ext.append(full_p_file)
+    for f_ in non_ext: 
+        os.remove(f_)
+    print("="*50)
+    print('removed {} non-{} files, kept {} {} files #savespace '.format(len(non_ext), ext_name,  len(ext_)) , ext_name  )
+    print("="*50)
+
 def getRepoFromFileName(file_param, org_par):
     start_path = os.path.relpath(file_param, org_par)
     repo_name  = start_path.split('/')[0]
@@ -63,7 +79,9 @@ if __name__=='__main__':
    output_ = '/Users/arahman/Documents/OneDriveWingUp/OneDrive-TennesseeTechUniversity/Research/ncsu_research/solidity-nier2018/results/V4/FINAL_CODE_METRICS.csv'    
    org_dir = '/Users/arahman/SOLIDITY_REPOS/V5/final_repos/'   
 
-   data_dump  = getChurnForAllFile(input_, org_dir)
-   dumpContentIntoFile(data_dump, output_)
+#    data_dump  = getChurnForAllFile(input_, org_dir)
+#    dumpContentIntoFile(data_dump, output_)
+
+   doCleanUp(org_dir, '.sol') 
 
    print("-"*100)   
